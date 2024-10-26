@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>upload:</h1>
+    <form action="" enctype='multipart/form-data' method='POST'>
+        <input type="file" name="file">
+        <input type="submit" value="upload">
+    </form>
+    <h1>download:</h1>
+    <ul>
+        {% for item in serverips %}
+        <li>{{ item }}           <a href="http://{{ item }}:6500/files">download</a></li>
+        {% endfor %}
+
+    </ul>
+</body>
+</html>
