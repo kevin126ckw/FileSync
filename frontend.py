@@ -4,6 +4,8 @@ from werkzeug.utils import secure_filename
 import os
 import requests
 
+debug = False
+
 app = Flask(__name__)
 
 header = {
@@ -45,4 +47,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=debug)

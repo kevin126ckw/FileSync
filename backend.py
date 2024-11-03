@@ -3,6 +3,7 @@ from flask import send_from_directory
 
 import os
 
+debug = False
 
 app = Flask(__name__)
 
@@ -40,4 +41,4 @@ def files():
 
 
 if __name__ == '__main__':
-    app.run(port=6500,debug=True)
+    app.run(port=6500,debug=debug)
