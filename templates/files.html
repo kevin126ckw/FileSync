@@ -7,7 +7,7 @@
     <h1>Files:</h1>
     <ul>
         {% for item in filelist %}
-        <li>{{ item }} <a href="/download?file={{ item }}">download</a></li>
+        <li>{{ item }} <a href="/download?file={{ item }}&serverip={{ serverip }}">download</a></li>
         {% endfor %}
     </ul>
 </body>

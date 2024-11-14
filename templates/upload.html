@@ -12,8 +12,8 @@
     </form>
     <h1>download:</h1>
     <ul>
-        {% for item in serverips %}
-        <li>{{ item }}           <a href="http://{{ item }}:6500/files">download</a></li>
+        {% for item in server_list %}
+        <li>{{ item }}           <a href="/files?serverip={{ item }}">download</a></li>
         {% endfor %}
 
     </ul>
