@@ -5,6 +5,7 @@ import os
 import requests
 import urllib
 from urllib import parse
+from flask_basicauth import BasicAuth
 
 # --------- CONFIG START ---------
 debug = True
@@ -24,15 +25,23 @@ header = {
     #              'Safari/537.36'
 
 }
+username = 'admin'
+password = '111111'
+force_auth = True
 server_list = ['127.0.0.1']
-# --------- CONFIG END ---------
+
+# --------- CONFIG END -----------
 
 app = Flask(__name__)
-
+app.config['BASIC_AUTH_USERNAME'] = username
+app.config['BASIC_AUTH_PASSWORD'] = password
+app.config['BASIC_AUTH_FORCE'] = force_auth
 basepath = os.path.dirname(__file__)
+basic_auth = BasicAuth(app)
 
 
 @app.route('/', methods=['POST', 'GET'])
+@basic_auth.required
 def index():
     if request.method == 'POST':
         f = request.files['file']
@@ -55,6 +64,7 @@ def index():
 
 
 @app.route("/files")
+@basic_auth.required
 def files():
     #response = make_response(redirect("http://"+request.args.get('serverip') + ':6500/files'))
     response = requests.get("http://" + request.args.get('serverip') + ':6500/files', headers=header).text
@@ -67,6 +77,7 @@ def files():
 
 
 @app.route("/download")
+@basic_auth.required
 def download():
     #response = redirect("http://" + request.args.get('serverip') + ':6500/download')
     #response = redirect("/test")
@@ -78,11 +89,11 @@ def download():
         print(response.headers)
     #return response
     back_header = {
-        'Content-Disposition': f'attachment; filename={urllib.parse.quote(request.args.get('file'))}',
+        'Content-Disposition': 'attachment; filename='+urllib.parse.quote(request.args.get('file')),
         'Content-Type': response.headers['Content-Type'],
         'Content-Length': response.headers['Content-Length']
     }
-    return Response(stream_with_context(response.iter_content()), content_type = response.headers['content-type'], headers=back_header)
+    return Response(stream_with_context(response.iter_content(chunk_size=1024)), content_type = response.headers['content-type'], headers=back_header)
 @app.route("/test")
 def test():
     return str(request.headers)

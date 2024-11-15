@@ -2,16 +2,17 @@ from flask import Flask, render_template, request
 from flask import send_from_directory
 
 import os,socket
-
+# --------- CONFIG START ---------
 debug = True
-
+Authorization = '1677034306556'
+# --------- CONFIG END -----------
 app = Flask(__name__)
 
 basepath = os.path.dirname(__file__)
 
 
-def auth(Authorization):
-    if Authorization == '1677034306556':
+def auth(Token):
+    if Token == Authorization:
         return True
     else:
         return False
